@@ -22,3 +22,25 @@ html, body, .App {
 	-webkit-text-stroke: 3px white;
 	outline: none;
 }
+
+.sentence {
+	width: 100%;
+	text-align: center;
+	position: relative;
+}
+
+.sentence::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 0%;
+	height: 100%;
+	background: white;
+	transition: .15s ease;
+}
+
+.sentence.transition::after {
+	width: 100%;
+	left: 0;
+}

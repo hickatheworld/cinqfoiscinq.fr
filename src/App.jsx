@@ -5,11 +5,14 @@ function App({color}) {
 	const [num, setNum] = useState(5);
 	const appRef = useRef();
 	const canvasRef = useRef();
+	const sentenceRef = useRef();
 
 	const onKeyDown = e => {
 		const n = parseInt(e.key);
-		if (!isNaN(n))
-			setNum(n);
+		if (!isNaN(n) && n !== num) {
+			sentenceRef.current.classList.add('transition');
+			setTimeout(() => setNum(n), 150);
+		}
 	};
 
 	document.title = `${num} × ${num} = ${num * num}`;
@@ -33,6 +36,10 @@ function App({color}) {
 	if (appRef.current)
 		appRef.current.focus();
 
+	if (sentenceRef.current) {
+		setTimeout(() => sentenceRef.current.classList.remove('transition'), 150);
+	}
+
 	return (
 		<div
 			className='App'
@@ -42,7 +49,7 @@ function App({color}) {
 			onKeyDown={onKeyDown}
 			onBlur={e => e.target.focus()}
 		>
-			<div className='sentence'>{num} fois {num}, ça fait {num * num}</div>
+			<div className='sentence' ref={sentenceRef}>{num} fois {num}, ça fait {num * num}</div>
 			<canvas style={{display: 'none'}} width={128} height={128} ref={canvasRef} />
 		</div>
 	);
