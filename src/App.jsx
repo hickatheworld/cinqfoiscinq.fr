@@ -49,7 +49,7 @@ function App({color}) {
 			onKeyDown={onKeyDown}
 			onBlur={e => e.target.focus()}
 		>
-			<div className='sentence' ref={sentenceRef}>{num} fois {num}, ça fait {num * num}</div>
+			<div className='sentence' ref={sentenceRef}>{num} fois {num}, ça fait {num * num}.</div>
 			<canvas style={{display: 'none'}} width={128} height={128} ref={canvasRef} />
 		</div>
 	);
