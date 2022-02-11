@@ -19,7 +19,7 @@ html, body, .App {
 	justify-content: center;
 	font: 10vw 'Lovelo', sans-serif;
 	color: transparent;
-	-webkit-text-stroke: 3px white;
+	-webkit-text-stroke: 1px white;
 	outline: none;
 }
 
