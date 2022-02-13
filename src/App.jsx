@@ -1,23 +1,21 @@
 import './App.css';
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
 
 function App({color}) {
-	const [num, setNum] = useState(5);
+	const [num, setNum] = useState(parseInt(window.location.hash.slice(1)) || 5);
 	const appRef = useRef();
 	const canvasRef = useRef();
-	const sentenceRef = useRef();
 
 	const onKeyDown = e => {
 		const n = parseInt(e.key);
-		if (!isNaN(n) && n !== num) {
-			sentenceRef.current.classList.add('transition');
-			setTimeout(() => setNum(n), 150);
-		}
+		if (!isNaN(n))
+			setNum(n);
 	};
 
 	document.title = `${num} × ${num} = ${num * num}`;
 	if (canvasRef.current) {
 		const ctx = canvasRef.current.getContext('2d');
+		ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 		ctx.fillStyle = color;
 		ctx.beginPath();
 		ctx.arc(64, 64, 64, 0, Math.PI * 2);
@@ -36,10 +34,18 @@ function App({color}) {
 	if (appRef.current)
 		appRef.current.focus();
 
-	if (sentenceRef.current) {
-		setTimeout(() => sentenceRef.current.classList.remove('transition'), 150);
-	}
+	useEffect(() => {
+		setInterval(() => {
+			const n = parseInt(window.location.hash.slice(1));
+			if (!isNaN(n) && n !== num) {
+				setNum(n);
+			}
+		}, 200);
+	}, []);
 
+	useEffect(() => {
+		window.location.hash = `#${num}`;
+	}, [num]);
 	return (
 		<div
 			className='App'
@@ -49,7 +55,7 @@ function App({color}) {
 			onKeyDown={onKeyDown}
 			onBlur={e => e.target.focus()}
 		>
-			<div className='sentence' ref={sentenceRef}>{num} fois {num}, ça fait {num * num}.</div>
+			<div className='sentence'>{num} fois {num}, ça fait {num * num}.</div>
 			<canvas style={{display: 'none'}} width={128} height={128} ref={canvasRef} />
 		</div>
 	);
